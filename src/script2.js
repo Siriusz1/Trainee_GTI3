@@ -1,19 +1,3 @@
-/*const urlParams = new URLSearchParams(window.location.search);
-const idsString = urlParams.get('ids');
-const teamName = urlParams.get('teamName');
-
-let cardSelecionadosRecebidos = [];
-
-if (idsString) {
-    cardSelecionadosRecebidos = JSON.parse(decodeURIComponent(idsString));
-
-    console.log("IDs recebidos:", cardSelecionadosRecebidos);
-} else {
-    console.log("Nenhum ID encontrado na URL.");
-}
-
-console.log("Nome da equipe:", teamName);
-*/
 
 const teamName = localStorage.getItem('teamName');
 const dadosString = localStorage.getItem('cardSelecionados');
