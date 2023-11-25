@@ -2,7 +2,7 @@
 module.exports = {
   content: ['./src/**/*.{html, js}'],
   theme: {
-    extend: {backgroundColor: {
+    extend: {backgroundImage: {
       'gradient-radial-fire': 'radial-gradient(circle at 50% -5%, #FDDFDF 40%, #ffffff 36%)',
       'gradient-radial-grass': 'radial-gradient(circle at 50% -5%, #DEFDE0 40%, #ffffff 36%)',
       'gradient-radial-eletric': 'radial-gradient(circle at 50% -5%, #FCF7DE 40%, #ffffff 36%)',
@@ -23,6 +23,16 @@ module.exports = {
       },
       boxShadow: {
         'custom': '-3px 4px 0 #888, -5px 7px 0 #333',
+        'custom2': '-2px 3px 0 #222, -4px 6px 0 #000',
+        'custom3': 'inset -4px 4px 0 #222',
+      },
+
+      colors:{
+        'corSecudaria': '#468F8A'
+      },
+      screens: {
+        'tall': { 'raw': '(min-height: 800px)' },
+        // => @media (min-height: 800px) { ... }
       },
     },
   },

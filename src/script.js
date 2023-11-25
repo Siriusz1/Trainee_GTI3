@@ -1,4 +1,5 @@
 let contador = 1;
+let arrayTamanho = 0;
 const pokeContainer = document.querySelector(".pokeContainer");
 const pokemonCount = 150;
 const colors = {
@@ -23,29 +24,39 @@ const colors = {
 }
 const idPokemons = []
 const form = document.querySelector('.form')
-const input = document.querySelector('.input_search')
+const input = document.querySelector('.input_search');
+const inputTime = document.querySelector('.input-name-time')
 const pokemonData = [];
 const mainTypes = Object.keys(colors);
 const cardSelecionados = [];
+
 const isCardSelecionado = (id) => {
     return cardSelecionados.includes(id);
 };
 let cardRemovido;
 
-const fetchPokemons = async () =>{
-    for(let i = 1; i <= pokemonCount; i++){
-        await getPokemons(i)
+const fetchPokemons = async () => {
+    const url = 'https://pokeapi.co/api/v2/pokemon/?limit=151';
+    const response = await fetch(url);
+    const data = await response.json();
+    
+    
+    const pokemonDetails = data.results;
+
+    for (const pokemon of pokemonDetails) {
+        await getPokemons(pokemon.url);
     }
 }
 
+console.log(pokemonData)
 
-const getPokemons = async (id) =>{
-    const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
-    const resp = await fetch(url);
-    const data = await resp.json();
+const getPokemons = async (url) => {
+    const response = await fetch(url);
+    const data = await response.json();
     pokemonData.push(data);
     createPokemonCard(data);
 }
+
 
 const createPokemonCard = (poke) => {
     const card = document.createElement('div');
@@ -78,7 +89,7 @@ const createPokemonCard = (poke) => {
 
     const gradientStyle = `radial-gradient(circle at 50% -5%, ${color} 40%, #ffffff 36%)`;
     card.innerHTML = `
-        <div id="${cardId}" class=" card_template bg-gradient p-8 rounded-lg cursor-pointer" style="background: ${gradientStyle};">
+        <div id="${cardId}" class="card_template bg-gradient p-8 rounded-lg cursor-pointer" style=" background: ${gradientStyle};">
             <p class="hp w-20 bg-white text-center p-2 px-0 rounded-[30px] ml-auto font-normal">
                 <span class="text-xs tracking-tight font-semibold">HP</span>
                 ${hp}
@@ -113,27 +124,30 @@ const createPokemonCard = (poke) => {
 
 
     card.addEventListener('click',()=>{
-        console.log(id);
     if(cardSelecionados.length >= 0 && cardSelecionados.length < 6){
         if (!isCardSelecionado(id)) {
         cardSelecionados.push(parseInt(id))
         document.querySelector('.poke' + contador).setAttribute('src', `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${poke.id}.png`);
         contador +=1;
-        console.log(cardSelecionados);  
-        } else{
-        }
+        arrayTamanho = cardSelecionados.length;
+        console.log(arrayTamanho);
+        
+        } 
     } else{
         cardRemovido = cardSelecionados.shift()
         contador = 1;
         cardSelecionados.push(parseInt(id));
-        for(let i = 1; i <= 5; i++){
+        for(let i = 1; i <= 6; i++){
             document.querySelector('.poke' + i).setAttribute('src', `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${cardSelecionados[i-1]}.png`);
-            console.log(cardSelecionados[i]);
-            console.log(id)
         }
         console.log("Este foi o card Removido: "+ cardRemovido)
-        console.log(cardSelecionados);  
+    }
+        if(cardSelecionados.length === 6){
+            console.log('Entrou');
+            document.querySelector('.btn-time').setAttribute('style', 'display: block');
         }
+       
+        
     });
 }
 
@@ -143,15 +157,28 @@ input.oninput = () => {
 
     pokemonData
         .filter((item) =>
-            item.name.toLowerCase().includes(input.value.toLowerCase())
-        )
-        .forEach((item) => createPokemonCard(item));
-
-    pokemonData
-        .filter((item) =>
+            item.name.toLowerCase().includes(input.value.toLowerCase()) ||
             item.id.toString().padStart(3, '0').includes(input.value.toLowerCase())
         )
         .forEach((item) => createPokemonCard(item));
 }
+
+
+const btnClick = document.querySelector('.btn-time');
+
+btnClick.addEventListener('click', ()=>{
+    document.querySelector('.time-container').setAttribute('style', 'display: flex');
+})
+
+const btnConcluido = document.querySelector('.btn-concluido');
+
+btnConcluido.addEventListener('click', () => {
+    const teamName = inputTime.value;
+    const cardSelecionadosString = encodeURIComponent(JSON.stringify(cardSelecionados));
+    const urlCards = `time.html?ids=${cardSelecionadosString}&teamName=${encodeURIComponent(teamName)}`;
+    window.location.href = urlCards;
+});
+
+
 
 fetchPokemons();
