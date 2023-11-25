@@ -1,4 +1,4 @@
-const urlParams = new URLSearchParams(window.location.search);
+/*const urlParams = new URLSearchParams(window.location.search);
 const idsString = urlParams.get('ids');
 const teamName = urlParams.get('teamName');
 
@@ -13,7 +13,12 @@ if (idsString) {
 }
 
 console.log("Nome da equipe:", teamName);
+*/
 
+const teamName = localStorage.getItem('teamName');
+const dadosString = localStorage.getItem('cardSelecionados');
+const cardSelecionadosRecebidos = JSON.parse(decodeURIComponent(dadosString));
+console.log(cardSelecionadosRecebidos)
 
 const pokeContainer = document.querySelector(".pokeContainer");
 const colors = {
@@ -63,10 +68,8 @@ const getPokemons = async (url) => {
 const createPokemonCard = (poke) => {
     const id = poke.id.toString().padStart(3, '0');
     const idConvertido = parseInt(id);
-    console.log(id);
     for(let i = 0; i < cardSelecionadosRecebidos.length; i++){
     if (cardSelecionadosRecebidos[i] == idConvertido) {
-        console.log("Cards" + cardSelecionadosRecebidos);
         const card = document.createElement('div');
         card.classList.add("w-72", "h-72", "shadow-lg", "relative", "rounded-lg", "m-10");
 
@@ -102,26 +105,28 @@ const createPokemonCard = (poke) => {
                     ${hp}
                 </p>
                 <img class="block w-[90px] h-[90px] p-[5%]relative mx-auto" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${poke.id}.gif" alt="" style="width:90px">
-                <div class="number flex justify-center mb-2">
-                    <span class="bg-gray-400 poke-name text-center font-semibold flex items-center justify-center rounded-3xl w-12">${id}</span>
-                </div>
-                <h2 class="poke-name text-center font-semibold">${name}</h2>
-                <div class="types flex justify-around mt-5 mb-10">
-                    <span class="text-xs tracking-tight font-semibold">${type2}</span>
-                    <span class="text-xs tracking-tight font-semibold">${type1}</span>
-                </div>
-                <div class="stats flex items-center justify-between text-center">
-                    <div>
-                        <h3>${attack}</h3>
-                        <p class="text-stone-500">Attack</p>
+                <div style="margin-top: 20%" >
+                    <div class="number flex justify-center mb-2">
+                        <span class="bg-gray-400 poke-name text-center font-semibold flex items-center justify-center rounded-3xl w-12">${id}</span>
                     </div>
-                    <div>
-                        <h3>${defense}</h3>
-                        <p class="text-stone-500">Defense</p>
+                    <h2 class="poke-name text-center font-semibold">${name}</h2>
+                    <div class="types flex justify-around mt-5 mb-10">
+                        <span class="text-xs tracking-tight font-semibold">${type2}</span>
+                        <span class="text-xs tracking-tight font-semibold">${type1}</span>
                     </div>
-                    <div>
-                        <h3>${speed}</h3>
-                        <p class="text-stone-500">Speed</p>
+                    <div class="stats flex items-center justify-between text-center">
+                        <div>
+                            <h3>${attack}</h3>
+                            <p class="text-stone-500">Attack</p>
+                        </div>
+                        <div>
+                            <h3>${defense}</h3>
+                            <p class="text-stone-500">Defense</p>
+                        </div>
+                        <div>
+                            <h3>${speed}</h3>
+                            <p class="text-stone-500">Speed</p>
+                        </div>
                     </div>
                 </div>
             </div>

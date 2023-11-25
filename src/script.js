@@ -174,9 +174,10 @@ const btnConcluido = document.querySelector('.btn-concluido');
 
 btnConcluido.addEventListener('click', () => {
     const teamName = inputTime.value;
-    const cardSelecionadosString = encodeURIComponent(JSON.stringify(cardSelecionados));
-    const urlCards = `time.html?ids=${cardSelecionadosString}&teamName=${encodeURIComponent(teamName)}`;
-    window.location.href = urlCards;
+    const cardSelecionadosEnviar = encodeURIComponent(JSON.stringify(cardSelecionados));
+    localStorage.setItem('teamName', teamName);
+    localStorage.setItem('cardSelecionados', cardSelecionadosEnviar);
+    window.location.href = 'time.html'
 });
 
 

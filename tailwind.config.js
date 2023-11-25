@@ -31,8 +31,7 @@ module.exports = {
         'corSecudaria': '#468F8A'
       },
       screens: {
-        'tall': { 'raw': '(min-height: 800px)' },
-        // => @media (min-height: 800px) { ... }
+        'tall': { 'raw': '(min-width: 1040px)' },
       },
     },
   },
